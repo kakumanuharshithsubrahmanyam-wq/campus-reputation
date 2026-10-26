@@ -8,7 +8,9 @@ The API lives in **`backend/`** (Structure A). The repo root **`package.json` is
 |--------|--------|
 | **Root Directory** | `backend` |
 | **Runtime** | Node |
-| **Build Command** | `npm ci && npm run prisma:generate && npm run build` |
+| **Build Command** | `npm ci --include=dev && npm run prisma:generate && npm run build` |
+
+`NODE_ENV=production` on Render omits devDependencies from plain `npm ci`; `--include=dev` installs TypeScript and `@types/*` needed for `tsc`. Runtime still uses production `npm start` only.
 | **Start Command** | `npm run prisma:deploy && npm start` |
 | **Health Check Path** | `/health` |
 

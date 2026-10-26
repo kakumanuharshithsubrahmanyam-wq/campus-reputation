@@ -70,7 +70,7 @@ npx prisma validate
 |--------|--------|
 | Root directory | `backend` |
 | Runtime | Node |
-| Build command | `npm ci && npm run prisma:generate && npm run build` |
+| Build command | `npm ci --include=dev && npm run prisma:generate && npm run build` |
 | Start command | `npm run prisma:deploy && npm start` |
 | Health check path | `/health` |
 

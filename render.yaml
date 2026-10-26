@@ -8,7 +8,7 @@ services:
     name: campus-reputation-api
     runtime: node
     rootDir: backend
-    buildCommand: npm ci && npm run prisma:generate && npm run build
+    buildCommand: npm ci --include=dev && npm run prisma:generate && npm run build
     startCommand: npm run prisma:deploy && npm start
     healthCheckPath: /health
     envVars:
