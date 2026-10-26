@@ -1,0 +1,30 @@
+# Render Blueprint — Campus Reputation API (no secrets; set in Render dashboard)
+services:
+  - type: web
+    name: campus-reputation-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm ci && npm run prisma:generate && npm run build
+    startCommand: npm run prisma:deploy && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: SEPOLIA_RPC_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: CHAIN_ID
+        value: "11155111"
+      - key: CAMP_TOKEN_ADDRESS
+        value: "0xF2c2bC22de5df5e95F5bB27b65E53b569E83d918"
+      - key: BADGE_CONTRACT_ADDRESS
+        value: "0x515677D8B9fe03998173032d7be9a0e7Ee78429c"
+      - key: CONFIRMATION_BLOCKS
+        value: "3"
+      - key: ENABLE_INDEXER_LOOP
+        value: "false"

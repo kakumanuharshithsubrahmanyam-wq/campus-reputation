@@ -1,7 +1,13 @@
 .vercel
 node_modules
 dist
+backend/node_modules
+backend/dist
+backend/.env
 .DS_Store
 .env
-.env.*
+.env.local
+.env.*.local
+!.env.example
+!backend/.env.example
 *.local

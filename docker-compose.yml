@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: campus-reputation-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: campus
+      POSTGRES_PASSWORD: campus
+      POSTGRES_DB: campus_reputation
+    ports:
+      - "5432:5432"
+    volumes:
+      - campus_pg_data:/var/lib/postgresql/data
+
+volumes:
+  campus_pg_data:

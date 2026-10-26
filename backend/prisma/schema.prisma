@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model StudentProfile {
+  id              String   @id @default(cuid())
+  walletAddress   String   @unique
+  name            String?
+  studentId       String?
+  department      String?
+  year            Int?
+  bio             String?
+  profileImageUrl String?
+  publicSlug      String?  @unique
+  isPublic        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  preference   UserPreference?
+}
+
+model TeacherProfile {
+  id              String   @id @default(cuid())
+  walletAddress   String   @unique
+  name            String?
+  department      String?
+  designation     String?
+  profileImageUrl String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AchievementCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  icon        String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  achievements Achievement[]
+}
+
+model Achievement {
+  id              String   @id @default(cuid())
+  studentWallet   String
+  title           String?
+  categoryId      String?
+  reason          String
+  campAmount      String
+  teacherWallet   String?
+  proposalId      String?
+  transactionHash String
+  blockNumber     Int
+  logIndex        Int
+  evidenceUrl     String?
+  status          String   @default("verified")
+  awardedAt       DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  category AchievementCategory? @relation(fields: [categoryId], references: [id])
+
+  @@unique([transactionHash, logIndex])
+  @@index([studentWallet])
+  @@index([teacherWallet])
+  @@index([transactionHash])
+  @@index([awardedAt])
+}
+
+model Notification {
+  id            String   @id @default(cuid())
+  walletAddress String
+  type          String
+  title         String
+  message       String
+  metadata      Json?
+  isRead        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([walletAddress, isRead])
+}
+
+model BlockchainEvent {
+  id              String   @id @default(cuid())
+  contractAddress String
+  eventName       String
+  transactionHash String
+  logIndex        Int
+  blockNumber     Int
+  blockHash       String
+  payload         Json
+  processedAt     DateTime @default(now())
+
+  @@unique([transactionHash, logIndex])
+  @@index([contractAddress, blockNumber])
+  @@index([eventName])
+}
+
+model SyncState {
+  id                 String   @id @default(cuid())
+  contract           String   @unique
+  lastProcessedBlock Int
+  updatedAt          DateTime @updatedAt
+}
+
+model UserPreference {
+  walletAddress      String  @id
+  emailNotifications Boolean @default(false)
+  publicProfile      Boolean @default(true)
+  showAchievements   Boolean @default(true)
+  showCampScore      Boolean @default(true)
+  showBadges         Boolean @default(true)
+  showRank           Boolean @default(true)
+
+  student StudentProfile @relation(fields: [walletAddress], references: [walletAddress], onDelete: Cascade)
+}
+
+model AuthNonce {
+  id        String    @id @default(cuid())
+  address   String
+  nonce     String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([address])
+}
+
+model BalanceSnapshot {
+  walletAddress String   @id
+  balanceWei    String
+  fetchedAt     DateTime @default(now())
+}
+
+/** Prevents overlapping GitHub Actions / manual indexer:once runs */
+model IndexerLock {
+  id         String   @id @default("global")
+  holder     String
+  acquiredAt DateTime @default(now())
+  expiresAt  DateTime
+}
