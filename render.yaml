@@ -1,4 +1,8 @@
 # Render Blueprint — Campus Reputation API (no secrets; set in Render dashboard)
+#
+# IMPORTANT: API code is in /backend. Repo root package.json is Vite frontend only.
+# Manual dashboard: Root Directory MUST be "backend". Start Command MUST NOT be "src".
+# See RENDER_DEPLOY.md
 services:
   - type: web
     name: campus-reputation-api
@@ -11,6 +15,8 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
         sync: false
       - key: SEPOLIA_RPC_URL
         sync: false

@@ -21,7 +21,8 @@ Contract addresses are bundled in frontend config from repo — not secret.
 | Variable | PUBLIC / SECRET | Required | Description |
 |----------|-----------------|----------|-------------|
 | `NODE_ENV` | PUBLIC | Yes | `production` |
-| `DATABASE_URL` | SECRET | Yes | Supabase PostgreSQL URI |
+| `DATABASE_URL` | SECRET | Yes | Supabase **pooler** URI (runtime) |
+| `DIRECT_URL` | SECRET | Yes (Supabase) | Direct **5432** URI for `prisma migrate deploy` |
 | `SEPOLIA_RPC_URL` | SECRET* | Yes | HTTPS RPC URL (*URL may embed API key) |
 | `CHAIN_ID` | PUBLIC | Yes | `11155111` |
 | `CAMP_TOKEN_ADDRESS` | PUBLIC | Yes | `0xF2c2bC22de5df5e95F5bB27b65E53b569E83d918` |
