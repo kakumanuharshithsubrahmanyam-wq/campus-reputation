@@ -7,5 +7,9 @@ const REASON_MAP: Record<string, string> = {
 };
 
 export function mapReasonToCategorySlug(reason: string): string {
-  return REASON_MAP[reason] ?? "other";
+  if (REASON_MAP[reason]) return REASON_MAP[reason];
+  for (const [prefix, slug] of Object.entries(REASON_MAP)) {
+    if (reason.startsWith(prefix)) return slug;
+  }
+  return "other";
 }

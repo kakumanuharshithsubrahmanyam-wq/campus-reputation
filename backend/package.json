@@ -14,6 +14,7 @@
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:seed": "tsx prisma/seed.ts",
+    "seed:demo": "tsx src/jobs/demo-seed-cli.ts",
     "indexer": "tsx src/jobs/indexer-cli.ts",
     "indexer:once": "tsx src/jobs/indexer-once-cli.ts",
     "indexer:once:prod": "node dist/jobs/indexer-once-cli.js"
